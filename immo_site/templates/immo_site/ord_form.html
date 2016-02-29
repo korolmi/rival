@@ -1,0 +1,62 @@
+<div class="row style-gr">
+  <div class="col-xs-2"></div>
+  <div class="col-xs-8">
+    <div class="well text-center">
+      <h2>
+        {{ flabs.title }}
+      </h2>
+    </div>
+	  <div class="row">
+      <form class="form-horizontal" method="post" id="my_form">
+  		<div class="form-group">
+        {% if flabs.serv_val %}
+        <div class="row">
+      		<label for="inputServ" class="col-xs-2 control-label">{{ flabs.serv_lab }}</label>
+      		<div class="no-gutter col-xs-7">
+            	<select class="form-control" id="inputServ" disabled>
+  			         <option>{{ flabs.serv_val }}</option>
+            	</select>
+          </div>
+      		<div class="no-gutter col-xs-2 text-center">
+    				<input type="text" class="form-control" id="inputPrice" value="{{ flabs.price }}" disabled>
+      		</div>
+        </div>
+        {% endif %}
+        <div class="row">          
+      		<label for="inputWhat" class="col-xs-2 control-label">{{ flabs.subj_lab }}</label>
+      		<div class="no-gutter col-xs-9">
+            <input type="text" class="form-control" id="inputWhat" placeholder="{{ flabs.subj_val }}" \>
+      		</div>
+        </div>
+        <div class="row">
+          <label for="inputDescr" class="col-xs-2 control-label">{{ flabs.descr_lab }}</label>
+      		<div class="no-gutter col-xs-9">
+            <textarea class="form-control" rows="7" id="inputDescr" placeholder="{{ flabs.descr_val }}"></textarea>
+      		</div>
+        </div>
+        <div class="row">          
+      		<label for="inputCont" class="col-xs-2 control-label">{{ flabs.cont_lab }}</label>
+          <div class="col-xs-2 no-gutter">
+            <select class="form-control" id="inputContType">
+            {% for v in flabs.cont_type_val %}
+					     <option>{{ v }}</option>
+            {% endfor %}
+            </select>
+          </div>
+      		<div class="col-xs-5 no-gutter">
+            <input type="text" class="form-control" id="inputCont" placeholder="{{ flabs.cont_val }}" \>
+    		  </div>
+          <div class="no-gutter col-xs-2">
+            <input class="btn btn-default btn-block" type="submit" id="ord_submit" value="{{ flabs.act_lab }}">
+          </div>
+        </div>
+        <div class="row">          
+          <div class="no-gutter col-xs-2"></div>
+          <div class="no-gutter col-xs-9 text-center"><div id="ord_res" role="alert"></div></div>
+        </div>          
+      </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-xs-2"></div>
+</div>

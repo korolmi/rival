@@ -1,0 +1,68 @@
+{# Шаблон главной страницы и только ее #}
+
+{% extends "immo_site/__base.html" %}
+
+{% block title %}
+{{ pg.el_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid theme-showcase" role="main">
+    {# page section - taken from the page itself #}
+    <div class="row style-gr-hdr">
+        <h1 class="text-center">{{ pg.el_title }}</h1>
+    </div>
+    <div class="row style-gr">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 col-xs-12">
+    {% if not pg.el_as_html and pg.el_level == 2 %}
+        <div class="row style-gr-read">
+    {% endif %}        
+            {{ pg.el_body|safe }}
+    {% if not pg.el_as_html and pg.el_level == 2 %}
+        </div>
+    {% endif %}        
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    {% if pg.el_as_html %}
+      {% include "immo_site/ord_form.html" %}
+    {% endif %}
+    {# child pages content section - taken from the child pages #}
+    {% for p in p2l %}
+      <div class="row style-{{p.2}}-hdr">
+          <h1 class="text-center">{{ p.0.el_title }}</h1>
+      </div>
+      <div class="row style-{{p.2}}"> {# main row {{ p.0.el_page_color }}#}
+        <div class="row-height">
+          <div class="row">
+          {% if p.1.ph_file.url %}
+            <div class="col-xs-4 ext-gutter col-middle col-height">
+              <a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><img class="img-responsive" src="{{ p.1.ph_file.url }}"></a>
+            </div>          
+            <div class="col-xs-8 ext-gutter col-middle col-height">
+                {{ p.0.el_body| safe }}
+            </div>
+          {% else%}
+            <div class="col-xs-1"></div>
+            <div class="col-xs-10 ext-gutter">
+                {{ p.0.el_body| safe }}
+            </div>
+            <div class="col-xs-1"></div>
+          {% endif %}
+          </div>
+          {% if p.3 %}
+          <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="col-xs-10">
+              <div class="text-right"><a href="/ru/page/constr_srv/"><button class="btn style-gr-hdr" type="button">Подробнее</button></a></div>
+            </div>              
+            <div class="col-xs-1"></div>
+          </div>                   
+          <div class="row">&nbsp;</div>          
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% endblock content %}

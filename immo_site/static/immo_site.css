@@ -1,0 +1,260 @@
+/* boostrap styling changes */
+
+blockquote {
+	font-size: 90%;
+}
+
+.well-sm, .thumbnail {
+  margin: 0;
+  border: none;
+}
+
+.footer-distributed, .panel {
+  margin: 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+a.anchor{
+	display: block; 
+	position: relative; 
+	top: -120px; 
+	visibility: hidden;
+}
+
+.btn1 {
+    margin: 2px;
+}
+
+.navbar {
+  opacity: 0.8;
+  border: 0;
+}
+
+.input-group { 
+  width: 100%; 
+}
+
+.panel1 {
+    border: none;
+    box-shadow: none;
+}
+
+p {
+  text-align: justify;
+}
+/* misc */
+
+.main_div {
+    height: 100vh; 
+    width: 100vw;
+    background-image: url(/static/sunsh_ori.jpg);
+    background-size: 100% 100%;
+}
+
+.lz1, .lz2, .lz3, .lz4 {
+  position: absolute;
+  color: white;
+}
+
+.lz1 {
+  top: 15%;
+  left: 10%;
+  font-size: 3.5vw;
+}
+
+.lz2 {
+  top: 23%;
+  left: 10%;
+  font-size: 3vw;
+}
+
+.lz3 {
+  top: 85%;
+  left: 10%;
+  font-size: 3.3vw;
+}
+
+.btnmore {
+  position: absolute;
+  color: red;  
+  background-color: white;
+  right: 0;
+  font-size: 2.5vw;
+    -webkit-animation-name: example; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: example;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;    
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes example {
+    from {bottom: -10%;}
+    to {bottom: 0;}
+}
+
+/* Standard syntax */
+@keyframes example {
+    from {bottom: -10%;}
+    to {bottom: 0;}
+}
+
+#show {
+  background-color: transparent;
+/*  opacity: 0.1;*/
+  border: 0;
+}
+
+#hide, #showicon {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+}
+
+.medium {
+  padding-top: 10px;
+  font-size: 120%;
+}
+
+.big {
+  font-size: 150%;
+}
+
+.glbig {
+  font-size: 150%;
+}
+
+.glmenu {
+  color: red;
+  cursor: pointer;
+}
+
+.cit_level_1 {
+  text-transform: uppercase;
+}
+
+#hide {
+  color: white;
+}
+
+.mcol {
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+    -webkit-column-gap: 20px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 20px; /* Firefox */
+    column-gap: 20px;
+}
+
+.no-gutter {
+    padding-left:0;
+    padding-right:0;
+}
+
+.ext-gutter {
+    padding:3%;
+}
+
+.input-group {
+    padding-bottom:3px;
+};
+
+/* vertical aligned columns */
+.row-height {
+  display: table;
+  table-layout: fixed;
+  height: 100%;
+  width: 100%;
+}
+.col-height {
+  display: table-cell;
+  float: none;
+  height: 100%;
+}
+.col-top {
+  vertical-align: top;
+}
+.col-middle {
+  vertical-align: middle;
+}
+.col-bottom {
+  vertical-align: bottom;
+}
+
+/* styling individ elements */
+.style-red {
+  color: red;  
+}
+
+.padd-div {
+  padding: 10px;
+}
+.input-label{
+  background-color:darkgray;
+  width: 40%;
+  text-align: right;
+}
+
+.style-gr-hdr, .style-br-hdr, .style-cat-hdr {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.style-gr {
+  background-color:#C3DA72;
+  color:003636;
+}
+.style-gr-read {
+  background-color: rgba(255,255,255,0.8);
+  color:003636;
+  padding: 20px;
+}
+.style-gr-hdr, .style-gr-oth {
+  background-color:#758E1F; /* 117 142 31 */
+  color:#F5D952; /* 245 217 82 */
+}
+.panel-gr {
+  background-color:#F5D952;
+  color:#758E1F;
+}
+
+.style-br {
+  background-color:#EEA602;
+  color:#003636;
+}
+
+.style-br-hdr, .style-br-oth {
+  background-color:#815028;
+  color:#F5D952;
+}
+
+.style-cat-hdr {
+  background-color:#5E786D;
+  color:#F5D952;
+}
+
+.style-cat {
+  background-color:#ECE362;
+  color:#003636;
+}
+
+.style-cat-oth {
+  background-color:#929F4D;
+  color:#003636;
+}
+
+.step {
+  margin-left:5px;
+  max-height:80px;
+}
+
+.no-padding-left {
+  padding-left: 0;
+}
+@media only screen and (min-width: 992px) {
+  .thick-bottom-border {
+    border-bottom: thick solid #F5D952;
+  }
+}

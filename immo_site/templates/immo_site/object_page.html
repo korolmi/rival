@@ -1,0 +1,112 @@
+{% extends "immo_site/__base.html" %}
+
+{% block title %}
+{{ pg.cat_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid theme-showcase" role="main">
+    <div class="row"> {# main row #}
+        <div class="col-xs-12">{# main column #}
+            <div class="row">{# title and short description #}
+                <div class="style-gr-hdr">
+                  <h2 class="text-center">{{ pg.cat_title }}</h2>
+                </div>
+                <div class="panel panel-default style-gr">
+                  <div class="panel-body">
+                    <p class="big">{{ pg.cat_sdescr }}</p>
+                  </div>
+                </div>
+            </div>{# title and short description #}
+            <div class="row style-gr">{# main data #}
+              <div class="col-xs-1"></div>
+              <div class="col-xs-4 ext-gutter">{# data column #}
+                <form class="form-horizontal">
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="priceInput">{{ tl.price }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="priceInput" class="input-sm form-control" placeholder="{{ pg.cat_price }}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="roomsInput">{{ tl.tot_rooms }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="roomsInput" class="input-sm form-control" placeholder="{{ pg.cat_rooms }}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="sroomsInput">{{ tl.s_rooms }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="sroomsInput" class="input-sm form-control" placeholder="{{ pg.cat_srooms }}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="broomsInput">{{ tl.b_rooms }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="broomsInput" class="input-sm form-control" placeholder="{{ pg.cat_brooms }}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="fl_areaInput">{{ tl.fl_area }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="fl_areaInput" class="input-sm form-control" placeholder="{{ pg.cat_fl_area }}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="gr_areaInput">{{ tl.g_area }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="gr_areaInput" class="input-sm form-control" placeholder="{{ pg.cat_gr_area }}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-7 control-label" for="floorsInput">{{ tl.floors }}</label>
+                      <div class="col-xs-5">
+                        <input type="text" id="floorsInput" class="input-sm form-control" placeholder="{{ pg.cat_floors }}" readonly>
+                      </div>
+                    </div>
+                  <div class="form-group">
+                    <label class="col-xs-7 control-label" for="adrInput">{{ tl.address }}</label>
+                    <div class="col-xs-5">
+                      <input type="text" id="adrInput" class="input-sm form-control" placeholder="{{ pg.cat_loc_name }}" readonly>
+                    </div>
+                  </div>
+                </form>
+              </div>{# data column #}
+              <div class="col-xs-7 ext-gutter">{# photo column #}
+                <img src="{{ ph.0.ph_file.url }}" class="img-responsive" alt="{{ ph.0.ph_descr }}">
+              </div>{# photo column #}
+            </div>{# main data #}
+            <div class="row style-gr">{# location row #}
+                <div class="panel panel-default style-gr">
+                  <div class="panel-body text-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default">{{ tl.location }}</button>
+                      {% for l in ll %}
+                        <button type="button" class="btn btn-success">{{ l }}</button>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+            </div>{# location row #}
+            <div class="row">{# description row #}
+              <div class="col-xs-12">{# description #}
+                  <div class="row style-gr-hdr">
+                    <h3 class=" text-center">{{ tl.descr }}</h3>
+                  </div>
+                  <div class="row style-gr">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-10">
+                      <div class="panel panel-default style-gr">
+                        <div class="panel-body">
+                          {{ pg.cat_fdescr|safe }}                        
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-1"></div>
+                  </div>
+              </div>{# description col #}
+            </div>{# description row #}
+        </div> {# main column #}
+   </div> {# main row #}
+</div>
+{% endblock content %}

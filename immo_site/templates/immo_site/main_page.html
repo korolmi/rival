@@ -1,0 +1,59 @@
+{# Шаблон главной страницы и только ее #}
+
+{% extends "immo_site/__base.html" %}
+
+{% block title %}
+{{ pg.el_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid theme-showcase" role="main">
+    {# landing image section #}
+    <div class="row">
+      <div class="main_div">
+        <div class="lz1">myFrench<span class="style-red">.HOUSE</span></div>
+        <div class="lz2">Independent Property Search</div>
+        <div class="lz3">Недвижимость во Франции для Вас</div>
+        <a href="#sss"><button class="btnmore btn">подробнее</button></a>
+      </div>
+    </div>
+    {# mission section - taken from the page itself #}
+    <a name="sss"></a>
+    <div class="row style-gr-hdr">
+        <h1 class="text-center">{{ pg.el_title }}</h1>
+    </div>
+    <div class="row style-gr">
+      <div class="row-height">
+        <div class="col-xs-7 ext-gutter col-middle col-height">
+          <p class="big">
+            {{ pg.el_body|safe }}
+          </p>
+          <div class="text-right"><a href="/{{ lang }}/page/home_det/" class="btn style-gr-hdr" role="button">Подробнее</a></div>
+        </div>
+        <div class="col-xs-4 ext-gutter col-middle col-height"><img class="img-responsive" src="{{ ph.0.ph_file.url }}"></div>
+        <div class="col-xs-1">
+        </div>
+      </div>
+    </div>
+    {# main page content section - taken from the child pages #}
+    {% for p in p2l %}
+      <div class="row style-{{p.2}}-hdr">
+          <h1 class="text-center">{{ p.0.el_title }}</h1>
+      </div>
+      <div class="row style-{{p.2}}"> {# main row {{ p.0.el_page_color }}#}
+        <div class="row-height">
+          {% if p.1.ph_file.url %}
+          <div class="col-xs-4 ext-gutter col-middle col-height">
+            <a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><img class="img-responsive" src="{{ p.1.ph_file.url }}"></a>
+          </div>          
+          <div class="col-xs-8 ext-gutter col-middle col-height">
+          {% else%}
+          <div class="col-xs-12 ext-gutter">
+          {% endif %}
+              {{ p.0.el_body| safe }}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% endblock content %}

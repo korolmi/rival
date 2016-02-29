@@ -1,0 +1,61 @@
+{# Шаблон главной страницы и только ее #}
+
+{% extends "immo_site/__base.html" %}
+
+{% block title %}
+{{ pg.el_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid theme-showcase" role="main">
+    {# page section - taken from the page itself #}
+    <div class="row style-gr-hdr">
+        <h1 class="text-center">{{ pg.el_title }}</h1>
+    </div>
+    <div class="row style-gr">
+      <div class="row-height">
+        {% if pgph.ph_file.url %}
+        <div class="col-xs-4 ext-gutter col-middle col-height">
+          <a href="/{{ lang }}/page/{{ pg.el_slug }}/"><img class="img-responsive" src="{{ pgph.ph_file.url }}"></a>
+        </div>          
+        <div class="col-xs-8 ext-gutter col-middle col-height">
+        {% else%}
+        <div class="col-xs-12 ext-gutter">
+        {% endif %}
+            {{ pg.el_body| safe }}
+        </div>
+      </div>
+    </div>
+    {# child pages content section - taken from the child pages #}
+    {% for p in p2l %}
+      <div class="row style-{{p.2}}-hdr">
+          <h1 class="text-center">{{ p.0.el_title }}</h1>
+      </div>
+      <div class="row style-{{p.2}}"> {# main row {{ p.0.el_page_color }}#}
+        <div class="row">
+          {% if p.1.ph_file.url %}
+          <div class="col-xs-4 ext-gutter">
+            <a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><img class="img-responsive" src="{{ p.1.ph_file.url }}"></a>
+          </div>          
+          <div class="col-xs-8 ext-gutter ">
+          {% else%}
+          <div class="col-xs-12 ext-gutter big">
+          {% endif %}
+            <div class="row"><h3>Основные моменты:</h3></div>
+            <div class="row">
+              {% for c in p.3 %}
+                <span class="cit_level_1">{{ c }}</span>...
+                {% if not forloop.last %}
+                  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="row">
+              <div class="text-right"><a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><button class="btn style-br-hdr" type="button">{{ det }}</button></a></div>
+            </div>         
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% endblock content %}

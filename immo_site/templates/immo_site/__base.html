@@ -1,0 +1,123 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block meta_tags %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    {% endblock meta_tags %}
+
+    <title>
+      {% block title %}{% endblock %}
+    </title>
+
+    {% block stylesheets %}
+      <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+      <!-- Bootstrap theme -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+  
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+      <!-- Custom styles for this template -->
+      <link href="{% static "footer.css" %}" rel="stylesheet">
+      <link href="{% static "immo_site.css" %}" rel="stylesheet">
+
+    {% endblock stylesheets %}
+  </head>  
+  <body role="document">
+    {% block navbar %} {# использует из контекста: m[menu_title,slug], proj - наименование проекта #}
+    <!-- Fixed navbar -->
+    <nav id="menu" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand">{# <span id="filter-btn" class="glyphicon glyphicon-search glmenu" aria-hidden="true"></span> #} &nbsp;{{ proj|safe }}</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                  {% for m in m1 %}
+                    <li id="c{{ forloop.counter }}"><a href="/{{ lang }}/{{ m.2 }}/{{ m.1 }}/">{{ m.0 }}</a></li>
+                  {% endfor %}
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <!-- Filter block -->
+    <nav id="filter" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand">Filter:</a>
+          </div>
+        </div>
+    </nav>
+    <div id="show" class="navbar-fixed-top navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span id="showicon" class="glyphicon glyphicon-menu-hamburger glbig glmenu" aria-hidden="true"></span>
+    </div>
+
+    {% endblock navbar %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+    <footer class="footer-distributed">
+      <div class="footer-left">{# footer-left #}
+        <h3>myFrench<span>.HOUSE</span></h3>
+
+        <p class="footer-links">
+        {% for m in m1 %}
+            <a href="/{{ lang }}/{{ m.2 }}/{{ m.1 }}/">{{ m.0 }}</a>
+            {% if not forloop.last %}
+              .
+            {% endif %}
+        {% endfor %}
+        </p>
+        <p class="footer-company-name">meFrench.HOUSE &copy; 2016</p>
+      </div>{# footer-left #}
+
+      <div class="footer-center">{# footer-center #}
+        <div>
+          <i class="fa fa-map-marker"></i>
+          <p><span>21 Revolution Street</span> Paris, France</p>
+        </div>
+
+        <div>
+          <i class="fa fa-phone"></i>
+          <p>+7 977 5110066 (RU)&nbsp;.&nbsp;+1 123 4567890 (FR)</p>
+        </div>
+
+        <div>
+          <i class="fa fa-envelope"></i>
+          <p><a href="mailto:support@company.com">info@myfrench.house</a></p>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <p class="footer-company-about">
+          <span>Независимый поиск недвижимости</span>
+          Услуги по поиску недвижимости во Франции "все включено" или "a-la-carte".
+        </p>
+
+        <div class="footer-icons">
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+          <a href="#"><i class="fa fa-linkedin"></i></a>
+          <a href="#"><i class="fa fa-github"></i></a>
+        </div>
+      </div>
+    </footer>
+    {% endblock %}
+
+    {% block scripts %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    {% endblock %}
+    {% block ready_func %}
+      {% include "immo_site/ready_func.js" %}
+    {% endblock %}
+  </body>
+</html>

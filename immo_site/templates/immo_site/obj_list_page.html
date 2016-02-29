@@ -1,0 +1,88 @@
+{% extends "immo_site/__base.html" %}
+
+{% block title %}
+{{ pg.el_title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid theme-showcase" role="main">
+  <div class="row"> {# main page row #}
+      <div class="col-xs-12">{# main column #}
+        <div class="row style-cat-hdr">
+            <h1 class="text-center">{{ pg.el_title }}</h1>
+        </div>
+        <div class="row style-cat">
+          <div class="row">&nbsp;</div>
+          <div class="col-xs-1"></div>
+          <div class="col-xs-10 no-gutter">
+            <div class="panel panel-default style-cat-oth">
+              <div class="panel-body">
+                <p class="big">{{ pg.el_body }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-1"></div>
+        </div>
+      </div> {# main column #}
+  </div> {# main page row #}
+  <div class="row"> {# main row #}
+    <div class="col-xs-12">{# object column #}
+      {% for o in ol %}    
+          <div class="row style-{{o.2}}">{# object list row #}
+            <div class="row">&nbsp;</div>{# funny padder #}
+            <div class="row">
+              <div class="col-xs-1"></div>
+              <div class="col-xs-10">{# object panel #}
+                <table>
+                  <tr>
+                    <td width="30%" rowspan=2>{# photo #}
+                      <a href="/{{ lang }}/page/cat/{{ o.0.cat_obj_no }}/"><img class="img-responsive" src="{{ o.1.ph_file.url }}" alt="{{ o.1.ph_descr }}"></a>
+                    </td>
+                    <td>{# descr col #}
+                      <div class="padd-div">                    
+                        <p class="big">{{ o.0.cat_title }}</p>
+                        <p><b>{{ o.0.cat_loc_descr }}</b></p>
+                        <p>{{ o.0.cat_sdescr }}</p>
+                      </div>
+                    </td>
+                    <td rowspan=2 class="style-{{o.2}}-oth">{# data col #}
+                      <div class="padd-div"> 
+                        <div class="form-group">
+                          <div class="input-group input-group-sm">
+                            <span class="input-group-addon input-label">{{ tl.rooms }}</span>
+                            <input type="text" class="form-control" placeholder="{{ o.0.cat_rooms }}/{{ o.0.cat_srooms }}/{{ o.0.cat_brooms }}" readonly>
+                          </div>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-addon input-label">{{ tl.square }}</div>
+                            <input type="text" class="form-control" placeholder="{{ o.0.cat_gr_area }}/{{ o.0.cat_fl_area }} кв.м" readonly>
+                          </div>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-addon input-label">{{ tl.floors }}</div>
+                            <input type="text" class="form-control" placeholder="{{ o.0.cat_floors }}" readonly>
+                          </div>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-addon input-label">{{ tl.year }}</div>
+                            <input type="text" class="form-control" placeholder="{{ o.0.cat_constr_yr }}" readonly>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="10%" class="style-{{o.2}}-oth">{# price col #}
+                      <div class="padd-div">
+                        {{ tl.price }} {{ o.0.cat_price }} {{ tl.euro }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>{# opject panel #}
+              <div class="col-xs-1"></div>
+            </div>
+            <div class="row">&nbsp;</div>{# funny padder #}
+        </div>{# object list row #}
+      {% endfor %}
+    </div>{# object column #}
+  </div> {# main row #}
+</div>
+{% endblock content %}
