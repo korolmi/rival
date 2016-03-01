@@ -37,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djangocodemirror',
     'immo_site',
 )
 
@@ -75,23 +74,9 @@ WSGI_APPLICATION = 'rival.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+# goes to local settings
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/home/korolmi/projects/rival/rival/my.cnf',
-        },
-    }
-}
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
+from .local_settings import *
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

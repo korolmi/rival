@@ -22,20 +22,20 @@ class ShortContentAdmin ( admin.ModelAdmin ):
 
 	class Media: 
 		js = ( 'jquery.js',
-			'codemirror.js',
-			'closebrackets.js',
-			'closetag.js',
-			'css.js',
-			'fullscreen.js',
-			'htmlmixed.js',
-			'javascript.js',
-			'matchbrackets.js',
-			'matchtags.js',
-			'xml-fold.js',
-			'xml.js',
+			'codemirror/codemirror.js',
+			'codemirror/closebrackets.js',
+			'codemirror/closetag.js',
+			'codemirror/css.js',
+			'codemirror/fullscreen.js',
+			'codemirror/htmlmixed.js',
+			'codemirror/javascript.js',
+			'codemirror/matchbrackets.js',
+			'codemirror/matchtags.js',
+			'codemirror/xml-fold.js',
+			'codemirror/xml.js',
 			'cdmr_conf.js',)
 		css = {
-			'all' : ('codemirror.css', 'fullscreen.css', 'cobalt.css')
+			'all' : ('codemirror/codemirror.css', 'codemirror/fullscreen.css', 'codemirror/cobalt.css')
 		}
 
 	list_display = ( 'id', 'el_level', 'el_lang', 'el_ord_no', 'el_slug', 'el_title', 'el_parent')
