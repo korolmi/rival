@@ -34,9 +34,8 @@
           <h1 class="text-center">{{ p.0.el_title }}</h1>
       </div>
       <div class="row style-{{p.2}}"> {# main row {{ p.0.el_page_color }}#}
-        <div class="row-height">
-          <div class="row">
           {% if p.1.ph_file.url %}
+            <div class="clearfix"></div>
             <div class="col-xs-4 ext-gutter col-middle col-height">
               <a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><img class="img-responsive" src="{{ p.1.ph_file.url }}"></a>
             </div>          
@@ -44,24 +43,22 @@
                 {{ p.0.el_body| safe }}
             </div>
           {% else%}
+            <div class="clearfix"></div>
             <div class="col-xs-1"></div>
             <div class="col-xs-10 ext-gutter">
                 {{ p.0.el_body| safe }}
             </div>
             <div class="col-xs-1"></div>
           {% endif %}
-          </div>
           {% if p.3 %}
-          <div class="row">
+            <div class="clearfix"></div>
             <div class="col-xs-1"></div>
             <div class="col-xs-10">
               <div class="text-right"><a href="/ru/page/constr_srv/"><button class="btn style-gr-hdr" type="button">Подробнее</button></a></div>
             </div>              
             <div class="col-xs-1"></div>
-          </div>                   
-          <div class="row">&nbsp;</div>          
+            <div class="row">&nbsp;</div>          
           {% endif %}
-        </div>
       </div>
     {% endfor %}
 </div>
