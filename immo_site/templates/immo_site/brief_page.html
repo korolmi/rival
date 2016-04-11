@@ -32,7 +32,6 @@
           <h1 class="text-center">{{ p.0.el_title }}</h1>
       </div>
       <div class="row style-{{p.2}}"> {# main row {{ p.0.el_page_color }}#}
-        <div class="row">
           {% if p.1.ph_file.url %}
           <div class="col-xs-4 ext-gutter">
             <a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><img class="img-responsive" src="{{ p.1.ph_file.url }}"></a>
@@ -54,7 +53,6 @@
               <div class="text-right"><a href="/{{ lang }}/page/{{ p.0.el_slug }}/"><button class="btn style-br-hdr" type="button">{{ det }}</button></a></div>
             </div>         
           </div>
-        </div>
       </div>
     {% endfor %}
 </div>
