@@ -28,6 +28,10 @@
       <link href="{% static "immo_site.css" %}" rel="stylesheet">
 
     {% endblock stylesheets %}
+    {% block scripts %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    {% endblock %}
   </head>  
   <body role="document">
     {% block navbar %} {# использует из контекста: m[menu_title,slug], proj - наименование проекта #}
@@ -80,14 +84,14 @@
       </div>{# footer-left #}
 
       <div class="footer-center">{# footer-center #}
-        <div>
+        <div class="invis">
           <i class="fa fa-map-marker"></i>
           <p><span>21 Revolution Street</span> Paris, France</p>
         </div>
 
         <div>
           <i class="fa fa-phone"></i>
-          <p>+7 977 5110066 (RU)&nbsp;.&nbsp;+1 123 4567890 (FR)</p>
+          <p>+7 977 5110066 (RU)<br>+33 684 440192 (FR)</p>
         </div>
 
         <div>
@@ -112,10 +116,6 @@
     </footer>
     {% endblock %}
 
-    {% block scripts %}
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    {% endblock %}
     {% block ready_func %}
       {% include "immo_site/ready_func.js" %}
     {% endblock %}

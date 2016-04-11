@@ -1,0 +1,150 @@
+{# Шаблон страницы с опросом #}
+
+{% extends "immo_site/__base.html" %}
+
+{% block title %}
+{{ qh.qh_subj }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid theme-showcase" role="main">
+    {# quest header #}
+    <div class="row style-gr-hdr">
+        <h1 class="text-center">{{ qh.qh_subj }}</h1>
+    </div>
+    <input type="hidden" id="quest_hdr" value="{{qh.id}}">            
+    {% for qs in qs %}
+    <div class="row style-gr" id="sect-{{ qs.0.id }}">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 col-xs-12">
+        <div class="row style-gr-read">
+          {% if forloop.first and qh.qh_details %}
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 col-xs-12">
+                <p>{{ qh.qh_details|safe }}</p>
+            </div>
+            <div class="col-md-1"></div>    
+          </div>
+          {% endif %}
+          {% if qs.0.qs_subj %}
+          <div class="well">
+            <h3>{{ qs.0.qs_subj }}</h3>
+          </div>
+          {% endif %}
+          {% if qs.0.qs_details %}
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 col-xs-12">
+                <p>{{ qs.0.qs_details|safe }}</p>
+            </div>
+            <div class="col-md-1"></div>    
+          </div>
+          {% endif %}
+            {% for q in qs.1 %}
+              {#  show question and details #}
+              <div class="{{q.0.q_quest_wd}}"><p class="big">{{ q.0.q_subj }}</p>
+              {% if q.0.q_details %}
+                <p>{{ q.0.q_details|safe }}</p>
+              {% endif %}
+              </div>
+              {% if q.0.q_has_comment and not q.1 %}  {# no variants, show comment #}
+                <div class="{{q.0.q_cmt_wd}}"><input type="text" qid="{{q.0.id}}" class="q_cmt form-control" {% if q.2 %} value="{{q.2}}" {% endif %}></div>                
+              {% endif %}
+              {% for qv in q.1 %}
+                {% if forloop.first %} {# start div for variants #}
+                  <div class="{{q.0.q_ans_wd}}">                
+                {% endif %}
+                {% if q.0.q_need_single %}
+                  {% if q.0.q_show_as_list %}
+                    {% if forloop.first %}
+                        <select class="form-control">
+                    {% endif %}
+                          <option class="q_ans" qid="{{q.0.id}}" value="{{qv.0.id}}" {% if qv.1 %} selected {% endif %}>{{ qv.0.qv_ans }}</option>  
+                    {% if forloop.last %}
+                        </select>
+                    {% endif %}
+                  {% else %}
+                  <div class="radio">
+                    <label>
+                      <input class="q_ans" qid="{{q.0.id}}" type="radio" value="{{qv.0.id}}" name="{{q.0.id}}" {% if qv.1 %} checked {% endif %}>
+                        {{ qv.0.qv_ans }}
+                    </label>
+                  </div>   
+                  {% endif %}       
+                {% else %}
+                  <div class="checkbox">
+                    <label>
+                      <input class="q_ans" qid="{{q.0.id}}" type="checkbox" value="{{qv.0.id}}" {% if qv.1 %} checked {% endif %}>
+                        {{ qv.0.qv_ans }}
+                    </label>
+                  </div>          
+                {% endif %}
+                {% if forloop.last %} {# close div for variants #}
+                  </div>                
+                {% endif %}
+              {% endfor %}
+              {% if q.0.q_has_comment and q.1 %}
+                <div class="clearfix"></div>
+                  <div class="col-xs-2 text-right">{{ tl.comment }}</div>
+                  <div class="col-xs-9">
+                    <input type="text" qid="{{q.0.id}}" class="q_cmt form-control" {% if q.2 %} value="{{q.2}}" {% endif %}>
+                  </div>
+                  <div class="col-xs-1">&nbsp;</div>
+                  <div class="row"><div class="col-xs-12">&nbsp;</div></div>
+              {% endif %}
+              {% if q.0.q_line_break %}
+                <div class="clearfix"></div>
+              {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    {% endfor %}
+    <div class="row style-gr">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 col-xs-12">
+        <div class="row style-gr-read">
+          <form class="form-horizontal" method="post" id="q_form">{% csrf_token %}
+            {% if not ans %}
+            <button class="btn btn-default btn-block" id="quest_submit">{{ tl.send }}</button>
+            {% endif %}
+          </form>
+        </div>
+        <div id="quest_res" class="row style-gr-read">
+        </div>    
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+</div>
+{% if hs %}
+<script type="text/javascript">
+$(window).load(function() {
+{% endif %}
+{% for h in hs %}
+
+  $('input[value="{{h.0}}"]').on( "change", function() {
+
+    if($(this).is(":checked")) {
+      {% if h.2 %}
+        $('#sect-{{h.1}}').hide();
+      {% else %}
+        $('#sect-{{h.1}}').show();
+      {% endif %}
+    }
+    else{
+      {% if h.2 %}
+        $('#sect-{{h.1}}').show();
+      {% else %}
+        $('#sect-{{h.1}}').hide();
+      {% endif %}
+    }
+  });
+{% endfor %}
+{% if hs %}
+});
+</script>
+{% endif %}
+
+{% endblock content %}

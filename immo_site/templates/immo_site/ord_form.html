@@ -7,7 +7,7 @@
       </h2>
     </div>
 	  <div class="row">
-      <form class="form-horizontal" method="post" id="my_form">
+      <form class="form-horizontal" method="post" id="my_form">{% csrf_token %}
   		<div class="form-group">
         {% if flabs.serv_val %}
         <div class="row">

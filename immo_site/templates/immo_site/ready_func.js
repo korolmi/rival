@@ -95,6 +95,57 @@ function getCookie(name) {
   }
 });
 
+// When submit is clicked
+ $("#quest_submit").click(function(e) {
+
+  e.preventDefault();
+  var csrftoken = getCookie('csrftoken');
+
+  //Collect data from fields
+  var answers = []
+  var comments = []
+  var qhid = $("#quest_hdr").val()
+
+  // collect answers
+  $('.q_ans:checked').each(function () {
+    if ( $(this).attr("type")=="radio" ){
+        answers.push($(this).attr("qid")+':'+$(this).val());
+    }
+    else{
+        answers.push($(this).attr("qid")+':'+$(this).val());      
+    }
+  });
+
+  // collect comments
+  $('.q_cmt').each(function () {
+    comments.push($(this).attr("qid")+':'+$(this).val());
+  });
+
+  $.ajax({
+          url : window.location.href, // the endpoint,commonly same url
+          type : "POST", // http method
+          data : { csrfmiddlewaretoken : csrftoken, 
+            qhid: qhid,
+            ans: JSON.stringify(answers),
+            cmt : JSON.stringify(comments),
+            tst: "hello",
+          }, // data sent with the post request
+
+   // handle a successful response
+   success : function(json) {
+     console.log(json); // another sanity check
+     //On success show the data posted to server as a message
+     $("#quest_res").html(json.resMsg);   
+     $("#quest_submit").attr("disabled","disabled"); 
+   },
+
+   // handle a non-successful response
+   error : function(xhr,errmsg,err) {
+     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+   }
+   });
+});
+
 /*
 function send_form(){
   Dajaxice.immo_site.send_form(Dajax.process,{'form':$('#my_form').serialize(true)});

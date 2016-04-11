@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Q
+from django.conf import settings
 
-from .models import ContentEl,CatalogEl,PhotoEl,TextLabel,OrderMsg
+from .models import ContentEl,CatalogEl,PhotoEl,TextLabel,OrderMsg,QuestHdr,QuestSect,Quest,QuestVar,AnsHdr,Answers,AnsCmts
 
 def _getProjName ( lang ):
 	""" имя проекта для главного меню """
@@ -139,6 +140,117 @@ def pageView(request,lang,slug):
 		return render ( request, 'immo_site/main_page.html', context )
 	else:
 		return render ( request, 'immo_site/content_page.html', context )
+
+def questView(request,lang,slug,ans=0):
+	""" отрисовывает страницу с анкетой """
+
+	ans = int(ans)
+
+	# читаем метки для элементов каталога
+	tLabs = {}
+	for t in TextLabel.objects.filter(tl_lang=lang,tl_category="quest"):
+		tLabs[t.tl_name] = t.tl_text
+
+	if request.method == 'POST':	# отдали страницу с результатами
+		if request.is_ajax():
+			cmts = request.POST.get('cmt').split('[')[1].split(']')[0]
+			anss = request.POST.get('ans').split('[')[1].split(']')[0]
+			qhid = request.POST.get('qhid')
+			# сохраняем ответы на вопросы анкеты
+			ansHdr = AnsHdr.objects.create(
+				ah_pers = "test",
+				ah_is_etalon = False,
+				ah_quest_hdr_id = qhid )
+			ansHdr.save()
+			ansid = ansHdr.id
+			totScore = 0
+			corAnsHdrId = QuestHdr.objects.filter(id=AnsHdr.objects.filter(id=ansid)[0].ah_quest_hdr_id)[0].qh_ans_hdr_id
+			qHdrId = QuestHdr.objects.filter(id=AnsHdr.objects.filter(id=ansid)[0].ah_quest_hdr_id)[0].id
+			isCorrect = {}
+			for a in anss.split(","):
+				ans = Answers.objects.create(
+					a_quest_id = a.split(":")[0].replace('"',''),
+					a_quest_var_id = a.split(":")[1].replace('"',''),
+					a_ans_hdr_id = ansid)
+				ans.save()
+				if corAnsHdrId is not None:
+					# определяем правильность ответа
+					isCorrect [ ans.a_quest_id ] = 0
+					if str(QuestVar.objects.filter(id=Answers.objects.filter(a_quest_id=ans.a_quest_id,a_ans_hdr_id=corAnsHdrId)[0].a_quest_var_id)[0].id) == str(ans.a_quest_var_id):
+						if isCorrect[ ans.a_quest_id ]==0:
+							isCorrect[ ans.a_quest_id ] = 1
+					else:
+						isCorrect[ ans.a_quest_id ] = 2
+
+			for c in cmts.split(","):
+				cc = c.split(":")[1].replace('"','')
+				if len(cc)>0:
+					ansc = AnsCmts.objects.create(
+						ac_quest_id = c.split(":")[0].replace('"',''),
+						ac_cmt = cc,
+						ac_ans_hdr_id = ansid)
+					ansc.save()
+
+			# формируем текст ответного сообщения
+			# КОСТЫЛЬ: надо убрать все тексты в базу
+			rMsg = ""
+			wrAns = ""
+			noAns = ""
+			maxScore = 0
+			if corAnsHdrId is not None:		# анкета для проверки знаний
+				# суммируем баллы и формируем тексты неправильных ответов
+				for q in isCorrect:
+					if isCorrect[q]==1:
+						totScore += Quest.objects.filter(id=q)[0].q_weight
+					else:
+						wrAns += "<li>{0}</li>".format(Quest.objects.filter(id=q)[0].q_subj)
+				# считаем максимум баллов и перечисляем вопросы без ответов
+				for q in Quest.objects.filter(q_quest_sect__qs_quest_hdr=qHdrId):
+					maxScore += q.q_weight
+					if str(q.id) not in isCorrect:
+						noAns += "<li>{0}</li>".format(q.q_subj)
+				rMsg += tLabs["total"].format(str(totScore), str(maxScore))
+				if len(wrAns)>0:
+					rMsg += tLabs["wrans"]
+					rMsg += "<ul>" + wrAns + "</ul>"
+				if len(noAns)>0:
+					rMsg += tLabs["noans"]
+					rMsg += "<ul>" + noAns + "</ul>"
+				if len(wrAns)>0 or len(noAns)>0:
+					rMsg += tLabs["corans"].format(lang,slug,corAnsHdrId) 
+			else:
+				rMsg += tLabs["thanks"]
+ 
+			data = {"resMsg":rMsg}
+			return JsonResponse(data)
+	else:	# заполняем форму данными по умолчанию
+		hSects = []
+		# читаем анкету
+		for qh in QuestHdr.objects.filter(qh_slug=slug,qh_lang=lang):
+			qSects = []
+			for qs in QuestSect.objects.filter(qs_quest_hdr_id=qh.id).order_by('qs_ord_no'):
+				qQuests = []
+				for q in Quest.objects.filter(q_quest_sect_id=qs.id).order_by('q_ord_no'):
+					qVars = []
+					for qv in QuestVar.objects.filter(qv_quest_id=q.id).order_by('qv_ord_no'):
+						ava = False
+						if ans>0: # анкета с ответами
+							av = Answers.objects.filter(a_ans_hdr_id=ans,a_quest_id=q.id,a_quest_var_id=qv.id)
+							if len(av)>0:
+								ava = True
+						qVars.append([qv,ava])
+						if qv.qv_linked_sect_id is not None:	# надо спрятять секцию
+							hSects.append([qv.id,qv.qv_linked_sect_id,qv.qv_hide_sect])
+					ansCmt = ""
+					if ans>0:	# анкета с ответами
+						ac = AnsCmts.objects.filter(ac_ans_hdr_id=ans,ac_quest_id=q.id)
+						if len(ac)>0:
+							ansCmt = ac[0].ac_cmt
+					qQuests.append([q,qVars,ansCmt])
+				qSects.append([qs,qQuests])	
+
+	context = { 'qh': qh, 'qs': qSects, 'lang': lang, 'slug': slug, 'hs': hSects, 'ans': ans, 'tl': tLabs }
+	return render ( request, 'immo_site/quest_page.html', context )
 
 def briefView(request,lang,slug):
 	""" отрисовывает страницу с выдержкой из контента """
