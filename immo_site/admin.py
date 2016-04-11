@@ -1,4 +1,6 @@
 from django.contrib import admin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from .models import ContentEl,CatalogEl,PhotoEl,TextLabel,PageTag,ShortContentEl,OrderMsg,QuestHdr,QuestSect,Quest,QuestVar,AnsHdr,Answers,AnsCmts
 
@@ -7,7 +9,7 @@ admin.site.register(CatalogEl)
 admin.site.register(PhotoEl)
 admin.site.register(QuestHdr)
 
-class ContentAdmin ( admin.ModelAdmin ):
+class ContentAdmin ( ImportExportModelAdmin ):
 
 	list_display = ( 'id', 'el_level', 'el_lang', 'el_ord_no', 'el_slug', 'el_title', 'el_parent')
 	list_filter = [ 'el_level', 'el_lang', ('el_parent',admin.RelatedOnlyFieldListFilter) ]
@@ -45,7 +47,7 @@ class ShortContentAdmin ( admin.ModelAdmin ):
 	filter_horizontal = ("el_tags",)
 	exclude = ["el_parent", "el_level", "el_ord_no", "el_lang", "el_meta_title", "el_meta_kwords", "el_type", "el_cre_date", "el_as_html", "el_templ_name", "el_page_color"]
 
-class LabelAdmin ( admin.ModelAdmin ):
+class LabelAdmin ( ImportExportModelAdmin ):
 
 	list_display = ( 'id', 'tl_lang', 'tl_category', 'tl_name', 'tl_text')
 	list_filter = [ 'tl_category', 'tl_lang' ]
@@ -103,3 +105,9 @@ admin.site.register(QuestVar,QuestVarAdmin)
 admin.site.register(AnsHdr,AnsHdrAdmin)
 admin.site.register(Answers,AnswersAdmin)
 admin.site.register(AnsCmts,AnsCmtsAdmin)
+
+# EXPORT IMPORT
+class TextLabResource(resources.ModelResource):
+
+    class Meta:
+        model = TextLabel
