@@ -146,6 +146,10 @@ def questView(request,lang,slug,ans=0):
 
 	ans = int(ans)
 
+	# готовим меню первого уровня и проект
+	m1l = make1Nav(lang)
+	projName = _getProjName(lang)
+
 	# читаем метки для элементов каталога
 	tLabs = {}
 	for t in TextLabel.objects.filter(tl_lang=lang,tl_category="quest"):
@@ -249,7 +253,7 @@ def questView(request,lang,slug,ans=0):
 					qQuests.append([q,qVars,ansCmt])
 				qSects.append([qs,qQuests])	
 
-	context = { 'qh': qh, 'qs': qSects, 'lang': lang, 'slug': slug, 'hs': hSects, 'ans': ans, 'tl': tLabs }
+	context = { 'm1': m1l, 'proj': projName, 'qh': qh, 'qs': qSects, 'lang': lang, 'slug': slug, 'hs': hSects, 'ans': ans, 'tl': tLabs }
 	return render ( request, 'immo_site/quest_page.html', context )
 
 def briefView(request,lang,slug):
